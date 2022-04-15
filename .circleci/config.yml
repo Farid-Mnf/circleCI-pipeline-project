@@ -16,5 +16,5 @@ jobs:
           name: hello
           command: |
             ls
-          command:
+          command: |
             echo "hi"

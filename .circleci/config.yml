@@ -14,7 +14,6 @@ jobs:
       # install dependencies in both apps
       - run:
           name: hello
-          command: |
+          command:
             ls
-          command: |
-            echo "hi"
+

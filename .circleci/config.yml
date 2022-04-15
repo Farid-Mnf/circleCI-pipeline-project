@@ -18,6 +18,7 @@ jobs:
       - image: "cimg/base:stable"
     steps:
       - node/install
+      - checkout
       - run:
           name: deploy to s3
           command: |

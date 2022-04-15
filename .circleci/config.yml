@@ -5,8 +5,9 @@ orbs:
   aws-cli: circleci/aws-cli@3.0.0
   # different jobs are calles later in the workflows sections
 jobs:
-  aws-cli-iam-setup-and-deploy:
+  build:
     docker:
+      # the base image can run most needed actions with orbs
       - image: "cimg/base:stable"
     executor: aws-cli/default
     steps:
@@ -16,19 +17,6 @@ jobs:
           aws-region: AWS_REGION_NAME
       - node/install
       - checkout
-      - run:
-          name: deploy to s3
-          command: |
-            npm run frontend:deploy      
-
-  build:
-    docker:
-      # the base image can run most needed actions with orbs
-      - image: "cimg/base:stable"
-    steps:
-      - node/install
-      - checkout
-      # install dependencies in both apps
       - run:
           name: frontend_install
           command: |
@@ -49,8 +37,8 @@ jobs:
           name: build_frontend
           command: |
             npm run frontend:build
-workflows:
-  build-and-aws-cli-setup-and-deploy:
-    jobs:
-      - build
-      - aws-cli-iam-setup-and-deploy
+      - run:
+          name: deploy to s3
+          command: |
+            npm run frontend:deploy      
+

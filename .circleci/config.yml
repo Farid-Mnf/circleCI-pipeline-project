@@ -4,16 +4,18 @@ orbs:
   node: circleci/node@4.1.0
   # different jobs are calles later in the workflows sections
 jobs:
-  install:
+  build:
     docker:
       # the base image can run most needed actions with orbs
       - image: "cimg/base:stable"
     steps:
-      - node/install
+      - node/install:
+          name: install-backend
+          command:
+            cd reactnd-contacts-server && npm install
       - checkout
       # install dependencies in both apps
       - run:
           name: hello
-          command:
-            cd ./reactnd-contacts-server && npm install && cd ../reactnd-contacts-complete && npm install
-
+          command: |
+            echo "hello-world"

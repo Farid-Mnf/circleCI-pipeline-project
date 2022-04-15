@@ -5,24 +5,22 @@ orbs:
   aws-cli: circleci/aws-cli@3.0.0
   # different jobs are calles later in the workflows sections
 jobs:
-  aws-cli-iam-setup:
+  aws-cli-iam-setup-and-deploy:
+    docker:
+      - image: "cimg/base:stable"
     executor: aws-cli/default
     steps:
       - aws-cli/setup:
           aws-access-key-id: AWS_ACCESS_KEY
           aws-secret-access-key: AWS_ACCESS_SECRET
           aws-region: AWS_REGION_NAME
-
-  deploy:
-    docker:
-      - image: "cimg/base:stable"
-    steps:
       - node/install
       - checkout
       - run:
           name: deploy to s3
           command: |
             npm run frontend:deploy      
+
   build:
     docker:
       # the base image can run most needed actions with orbs
@@ -55,5 +53,4 @@ workflows:
   build-and-aws-cli-setup-and-deploy:
     jobs:
       - build
-      - aws-cli-iam-setup
-      - deploy
+      - aws-cli-iam-setup-and-deploy

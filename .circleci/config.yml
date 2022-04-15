@@ -17,6 +17,7 @@ jobs:
     docker:
       - image: "cimg/base:stable"
     steps:
+      - node/install
       - run:
           name: deploy to s3
           command: |
@@ -53,6 +54,5 @@ workflows:
   build-and-aws-cli-setup-and-deploy:
     jobs:
       - build
-      - aws-cli-iam-setup:
-          context: aws
+      - aws-cli-iam-setup
       - deploy
